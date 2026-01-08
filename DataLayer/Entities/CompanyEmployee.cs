@@ -11,6 +11,8 @@ public partial class CompanyEmployee
 
     public int CompanyId { get; set; }
 
+    public EmployeeRoleEnum Role { get; set; }
+
     public int OfficeId { get; set; }
 
     public virtual ICollection<Cargo> Cargos { get; set; } = new List<Cargo>();

@@ -2,11 +2,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Logistics.Controllers;
 
-public class UsersController : Controller
+[ApiController]
+[Route("api/[controller]")]
+public class UsersController : ControllerBase
 {
     // GET
-    public IActionResult Index()
+    [HttpGet]
+    public IActionResult Get()
     {
-        return View();
+        return Ok();
     }
 }

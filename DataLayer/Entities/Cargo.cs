@@ -19,11 +19,15 @@ public partial class Cargo
 
     public string? RecieverAddress { get; set; }
 
+    public CargoStatusEnum CargoStatus { get; set; }
+
     public decimal? Weight { get; set; }
 
     public decimal? Price { get; set; }
 
     public DateTime? ArrivalDate { get; set; }
+
+    public ArrivalLocationTypeEnum ArrivalLocationType { get; set; }
 
     public int? OfficeDeliveredToId { get; set; }
 

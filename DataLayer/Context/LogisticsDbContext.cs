@@ -33,7 +33,7 @@ public /*partial*/ class LogisticsDbContext : DbContext
     {
         modelBuilder
             .HasPostgresEnum("arrival_location_type", new[] { "Office", "Address" })
-            .HasPostgresEnum("cargo_status", new[] { "created", "assigned", "picked_up", "in_transit", "delivered", "cancelled" })
+            .HasPostgresEnum("cargo_status", new[] { "Created", "Assigned", "PickedUp", "InTransit", "Delivered", "Cancelled" })
             .HasPostgresEnum("employee_role", new[] { "Office", "Courier" });
 
         modelBuilder.Entity<Cargo>(entity =>
@@ -171,7 +171,28 @@ public /*partial*/ class LogisticsDbContext : DbContext
                 .HasColumnName("phone");
             entity.Property(e => e.Username).HasMaxLength(45);
         });
+        
+        modelBuilder.Entity<CompanyEmployee>()
+            .Property(e => e.Role)
+            .HasConversion(
+                v => v.ToString(),
+                v => Enum.Parse<EmployeeRoleEnum>(v, true)
+            );
 
+        modelBuilder.Entity<Cargo>()
+            .Property(e => e.CargoStatus)
+            .HasConversion(
+                v => v.ToString(),
+                v => Enum.Parse<CargoStatusEnum>(v, true)
+            );
+
+        modelBuilder.Entity<Cargo>()
+            .Property(e => e.ArrivalLocationType)
+            .HasConversion(
+                v => v.ToString(),
+                v => Enum.Parse<ArrivalLocationTypeEnum>(v, true)
+            );
+        
         //OnModelCreatingPartial(modelBuilder);
     }
 

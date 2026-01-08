@@ -105,3 +105,4 @@
 /Users/bozhidardimitrov/RiderProjects/Logistics/Logistics/bin/Debug/net8.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
 /Users/bozhidardimitrov/RiderProjects/Logistics/Logistics/bin/Debug/net8.0/DataLayer.dll
 /Users/bozhidardimitrov/RiderProjects/Logistics/Logistics/bin/Debug/net8.0/DataLayer.pdb
+/Users/bozhidardimitrov/RiderProjects/Logistics/Logistics/obj/Debug/net8.0/Logistics.sourcelink.json
