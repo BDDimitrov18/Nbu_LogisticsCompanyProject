@@ -4,6 +4,13 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using DataLayer.Context;
+using DataLayer.Repositories.UserRepository;
+using DataLayer.Repositories.CompanyRepository;
+using DataLayer.Repositories.OfficeRepository;
+using DataLayer.Repositories.ClientRepository;
+using DataLayer.Repositories.CompanyEmployeeRepository;
+using DataLayer.Repositories.CargoRepository;
+using Logistics.Services.PasswordHasher;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,9 +42,16 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddControllers();
 
-
 builder.Services.AddDbContext<LogisticsDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("LogisticsDb")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+builder.Services.AddScoped<IOfficeRepository, OfficeRepository>();
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<ICompanyEmployeeRepository, CompanyEmployeeRepository>();
+builder.Services.AddScoped<ICargoRepository, CargoRepository>();
+builder.Services.AddScoped<IPasswordHasherService, PasswordHasherService>();
 
 
 
@@ -73,6 +87,7 @@ builder.Services.AddSwaggerGen(option =>
 
 
 var app = builder.Build();
+
 app.MapControllers();
 
 // Configure the HTTP request pipeline.
