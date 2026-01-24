@@ -1,0 +1,41 @@
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+
+# NuGet
+*.nupkg
+**/packages/*
+!**/packages/build/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# IDE folders
+.idea/
+.vs/
+.vscode/
+
+# Rider
+*.sln.iml
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# Environment files
+.env
+*.local
+
+# appsettings overrides (keep appsettings.json but ignore local overrides)
+appsettings.*.local.json
