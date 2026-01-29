@@ -3,7 +3,8 @@ namespace DataLayer;
 public enum EmployeeRoleEnum
 {
     Office,
-    Courier
+    Courier,
+    Admin
 }
 
 public enum CargoStatusEnum

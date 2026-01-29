@@ -15,6 +15,13 @@ public class UsersController(
     IUserRepository userRepository,
     IPasswordHasherService passwordHasher) : ControllerBase
 {
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var users = await userRepository.GetAllAsync();
+        return Ok(users);
+    }
+
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetById(int id)
     {
@@ -45,13 +52,13 @@ public class UsersController(
         var existingUser = await userRepository.GetByUsernameAsync(dto.Username);
         if (existingUser != null)
         {
-            return BadRequest(new { Message = "Username already exists" });
+            return BadRequest(new { Message = "Потребителското име вече съществува" });
         }
 
         var existingEmail = await userRepository.GetUserByEmailAsync(dto.Email);
         if (existingEmail != null)
         {
-            return BadRequest(new { Message = "Email already exists" });
+            return BadRequest(new { Message = "Имейл адресът вече съществува" });
         }
 
         var user = new User
@@ -73,7 +80,7 @@ public class UsersController(
     {
         if (id != dto.Id)
         {
-            return BadRequest(new { Message = "Id mismatch" });
+            return BadRequest(new { Message = "Несъответствие на ID" });
         }
 
         var user = await userRepository.GetByIdAsync(id);

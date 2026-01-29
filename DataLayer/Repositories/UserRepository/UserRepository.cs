@@ -26,6 +26,11 @@ public class UserRepository(LogisticsDbContext dbContext) : IUserRepository
         await _dbContext.SaveChangesAsync();
     }
 
+    public async Task<IEnumerable<User>> GetAllAsync()
+    {
+        return await _dbContext.Users.ToListAsync();
+    }
+
     public async Task<User?> GetByIdAsync(int id)
     {
         return await _dbContext.Users

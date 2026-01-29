@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using System.Text.Json.Serialization;
 using DataLayer.Context;
 using DataLayer.Repositories.UserRepository;
 using DataLayer.Repositories.CompanyRepository;
@@ -11,6 +12,7 @@ using DataLayer.Repositories.ClientRepository;
 using DataLayer.Repositories.CompanyEmployeeRepository;
 using DataLayer.Repositories.CargoRepository;
 using Logistics.Services.PasswordHasher;
+using Logistics.Services.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,7 +42,22 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    });
+
+// Add CORS for React frontend
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("http://localhost:5173", "http://localhost:3000")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
 builder.Services.AddDbContext<LogisticsDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
@@ -52,6 +69,8 @@ builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<ICompanyEmployeeRepository, CompanyEmployeeRepository>();
 builder.Services.AddScoped<ICargoRepository, CargoRepository>();
 builder.Services.AddScoped<IPasswordHasherService, PasswordHasherService>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IUserAuthorizationService, UserAuthorizationService>();
 
 
 
@@ -98,6 +117,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();

@@ -8,4 +8,5 @@ public class CreateCompanyEmployeeDto
 
     public int OfficeId { get; set; }
 
+    public EmployeeRoleEnum Role { get; set; } = EmployeeRoleEnum.Office;
 }

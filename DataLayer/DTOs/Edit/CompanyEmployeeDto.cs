@@ -9,4 +9,6 @@ public class CompanyEmployeeDto
     public int CompanyId { get; set; }
 
     public int OfficeId { get; set; }
+
+    public EmployeeRoleEnum Role { get; set; }
 }

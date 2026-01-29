@@ -25,13 +25,13 @@ public class AuthController(
         var existingUser = await userRepository.GetByUsernameAsync(registerDto.Username);
         if (existingUser != null)
         {
-            return BadRequest(new { Message = "Username already exists" });
+            return BadRequest(new { Message = "Потребителското име вече съществува" });
         }
 
         var existingEmail = await userRepository.GetUserByEmailAsync(registerDto.Email);
         if (existingEmail != null)
         {
-            return BadRequest(new { Message = "Email already exists" });
+            return BadRequest(new { Message = "Имейл адресът вече съществува" });
         }
 
         var user = new User
@@ -45,7 +45,7 @@ public class AuthController(
 
         await userRepository.InsertAsync(user);
 
-        return Ok(new { Message = "User registered successfully" });
+        return Ok(new { Message = "Регистрацията е успешна" });
     }
 
     [HttpPost("login")]
@@ -55,12 +55,12 @@ public class AuthController(
         var user = await userRepository.GetByUsernameAsync(loginDto.Username);
         if (user == null)
         {
-            return Unauthorized(new { Message = "Invalid username or password" });
+            return Unauthorized(new { Message = "Невалидно потребителско име или парола" });
         }
 
         if (!passwordHasher.VerifyPassword(loginDto.Password, user.Password))
         {
-            return Unauthorized(new { Message = "Invalid username or password" });
+            return Unauthorized(new { Message = "Невалидно потребителско име или парола" });
         }
 
         var token = GenerateJwtToken(user);
@@ -79,6 +79,7 @@ public class AuthController(
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new(ClaimTypes.Name, user.Username),
             new(ClaimTypes.Email, user.Email),
+            new(ClaimTypes.GivenName, user.Name),
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
